@@ -9,22 +9,31 @@ function App() {
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
 
-    // Add user message to chat
     const userMessage = { text: inputText, sender: 'user' };
     setMessages([...messages, userMessage]);
     setIsLoading(true);
     setInputText('');
 
-    // For now, just mock the AI response
-    // We'll connect to real API later
-    setTimeout(() => {
-      const aiMessage = { 
-        text: "This is a temporary response. We'll connect to AI soon!", 
+    try {
+      const response = await fetch('https://rropckz9df.execute-api.us-east-1.amazonaws.com/prod/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: inputText }),
+      });
+
+      const data = await response.json();
+      setMessages(prev => [...prev, { text: data.response, sender: 'ai' }]);
+    } catch (error) {
+      console.error('Error:', error);
+      setMessages(prev => [...prev, { 
+        text: "Sorry, I encountered an error. Please try again.", 
         sender: 'ai' 
-      };
-      setMessages(prev => [...prev, aiMessage]);
+      }]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -53,5 +62,3 @@ function App() {
 }
 
 export default App;
-
-    
