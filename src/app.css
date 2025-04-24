@@ -1,0 +1,21 @@
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #282c34;
+  color: white;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #61dafb;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+    
