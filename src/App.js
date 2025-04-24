@@ -15,24 +15,27 @@ function App() {
     setInputText('');
 
     try {
-      const response = await fetch('https://rropckz9df.execute-api.us-east-1.amazonaws.com/prod/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: inputText }),
-      });
+        const response = await fetch('https://39snl7d2fd.execute-api.us-west-2.amazonaws.com/prod/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: inputText }),
+        });
 
-      const data = await response.json();
-      setMessages(prev => [...prev, { text: data.response, sender: 'ai' }]);
+        const data = await response.json();
+        setMessages(prev => [...prev, { 
+            text: data.response, 
+            sender: 'ai' 
+        }]);
     } catch (error) {
-      console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        text: "Sorry, I encountered an error. Please try again.", 
-        sender: 'ai' 
-      }]);
+        console.error('Error:', error);
+        setMessages(prev => [...prev, { 
+            text: "Sorry, I encountered an error. Please try again.", 
+            sender: 'ai' 
+        }]);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 
