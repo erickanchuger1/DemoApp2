@@ -1,21 +1,41 @@
 .welcome-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
   background-color: #282c34;
   color: white;
 }
 
 h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
   color: #61dafb;
+  margin-bottom: 2rem;
 }
 
-p {
-  font-size: 1.5rem;
+.counter-section {
+  margin: 20px 0;
+  text-align: center;
 }
 
-    
+button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+}
+
+.input-section {
+  margin-top: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+}
