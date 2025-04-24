@@ -2,29 +2,51 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [inputText, setInputText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSendMessage = async () => {
+    if (!inputText.trim()) return;
+
+    // Add user message to chat
+    const userMessage = { text: inputText, sender: 'user' };
+    setMessages([...messages, userMessage]);
+    setIsLoading(true);
+    setInputText('');
+
+    // For now, just mock the AI response
+    // We'll connect to real API later
+    setTimeout(() => {
+      const aiMessage = { 
+        text: "This is a temporary response. We'll connect to AI soon!", 
+        sender: 'ai' 
+      };
+      setMessages(prev => [...prev, aiMessage]);
+      setIsLoading(false);
+    }, 1000);
+  };
 
   return (
-    <div className="welcome-container">
-      <h1>Welcome Eric Kanchuger</h1>
-      
-      {/* Interactive Counter */}
-      <div className="counter-section">
-        <h2>Counter: {count}</h2>
-        <button onClick={() => setCount(count + 1)}>Increase</button>
-        <button onClick={() => setCount(count - 1)}>Decrease</button>
+    <div className="chat-container">
+      <h1>AI Chat Assistant</h1>
+      <div className="chat-messages">
+        {messages.map((message, index) => (
+          <div key={index} className={`message ${message.sender}`}>
+            {message.text}
+          </div>
+        ))}
+        {isLoading && <div className="loading">AI is thinking...</div>}
       </div>
-
-      {/* Name Input */}
-      <div className="input-section">
-        <input 
-          type="text" 
-          placeholder="Enter your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+      <div className="chat-input">
+        <input
+          type="text"
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+          placeholder="Type your message..."
         />
-        {name && <p>Hello, {name}!</p>}
+        <button onClick={handleSendMessage}>Send</button>
       </div>
     </div>
   );
