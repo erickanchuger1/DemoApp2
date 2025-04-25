@@ -1,42 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
 
-  const suggestedPrompts = [
-    "Find concerts this weekend",
-    "Sports events near me",
-    "Shows in NYC",
-    "Upcoming festivals"
-  ];
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    setMessages([
-      {
-        text: "Hello! I'm your Event Planning Assistant. I can help you discover amazing events and plan your entertainment experience. Try asking about:",
-        sender: 'ai',
-        suggestions: suggestedPrompts
-      }
-    ]);
-  }, []);
-
-  const handleSendMessage = async () => {
+  constnst handleSendMessage = async () => {
     if (!inputText.trim()) return;
 
     const userMessage = { text: inputText, sender: 'user' };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages([...messages, userMessage]);
     setIsLoading(true);
     setInputText('');
 
@@ -52,8 +26,7 @@ function App() {
       const data = await response.json();
       setMessages(prev => [...prev, { 
         text: data.response, 
-        sender: 'ai',
-        timestamp: new Date().t).toLocaleTimeString()
+        sender: 'ai' 
       }]);
     } catch (error) {
       console.error('Error:', error);
@@ -66,58 +39,20 @@ function App() {
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setInputText(suggestion);
-    handleSendMessage();
-  };
-
   return (
     <div className="app-container">
       <header className="app-header">
-        <div className="logo-container">
-          <h1>Event Planning Assistant</h1>
-        </div>
-        <div className="category-buttons">
-          <button onClick={() => handleSuggestionClick("Show me concerts")}>🎵 Concerts</button>
-          <button onClick={() => handleSuggestionClick("Show me sports events")}>🏆 Sports</button>
-          <button onClick={() => handleSuggestionClick("Show me theater shows")}>🎭 Theater</button>
-          <button onClick={() => handleSuggestionClick("Show me festivals")}>🎪 Festivals</button>
-        </div>
+        <h1>Event Planning Assistant</h1>
       </header>
 
       <div className="chat-container">
         <div className="messages-container">
           {messages.map((message, index) => (
-            <div key={index} className={`message-wrapper ${message.sender}`}>
-              <div className={`message ${message.sender}`}>
-                <div className="message-content">{message.text}</div>
-                {message.timestamp && (
-                  <div className="message-timestamp">{message.timestamp}</div>
-                )}
-                {message.suggestions && (
-                  <div className="suggestion-chips">
-                    {message.suggestions.map((suggestion, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="suggestion-chip"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div key={index} className={`message ${message.sender}`}>
+              {message.text}
             </div>
           ))}
-          {isLoading && (
-            <div className="typing-indicator">
-              <div className="dot"></div>
-              <div className="dot"></div>
-              <div className="dot"></div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+          {isLoading && <div className="loading">AI is thinking...</div>}
         </div>
 
         <div className="input-container">
@@ -125,8 +60,8 @@ function App() {
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' &' && handleSendMessage()}
-            placeholder="Ask about events, shows, or venues..."
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            placeholder="Ask about events..."
             className="chat-input"
           />
           <button 
@@ -134,7 +69,7 @@ function App() {
             className="send-button"
             disabled={isLoading}
           >
-            <span className="button-text">Send</span>
+            Send
           </button>
         </div>
       </div>
@@ -143,3 +78,5 @@ function App() {
 }
 
 export default App;
+
+    
